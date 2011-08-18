@@ -1,0 +1,36 @@
+Name:		scaffold
+Version:	0.0
+Synopsis:	Scaffolding various projects
+Description: 	Scaffolding various projects
+License: 	BSD3
+License-file:	LICENSE
+Author:		Ian-Woo Kim
+Maintainer: 	Ian-Woo Kim <ianwookim@gmail.com>
+Build-Type: 	Simple
+Cabal-Version:  >= 1.8
+data-files:     
+                template/*.st 
+
+
+Executable scaffold
+  Main-is: scaffold.hs
+  hs-source-dirs: exe
+  ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
+  ghc-prof-options: -caf-all -auto-all
+  Build-Depends: base>4, mtl>2, directory, filepath>1,  
+                 HStringTemplate, HStringTemplateHelpersIW, parsec, 
+                 cmdargs, scaffold
+
+Library
+  hs-source-dirs: lib
+  ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
+  ghc-prof-options: -caf-all -auto-all
+  Exposed-Modules: 
+                 Application.Scaffold.Type
+                 Application.Scaffold.Command
+                 Application.Scaffold.Job
+
+  Other-Modules: 
+                 Paths_cvmaker
+ 
+		 
