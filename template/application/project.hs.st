@@ -2,14 +2,12 @@ module Main where
 
 import System.Console.CmdArgs
 
-import Application.Scaffold.Type
-import Application.Scaffold.Command
+import $modulebase$.Type
+import $modulebase$.Command
 
 main :: IO () 
 main = do 
-  putStrLn "scaffold"
+  putStrLn "$projname$"
   param <- cmdArgs mode
 
   commandLineProcess param
-
-

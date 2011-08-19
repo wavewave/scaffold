@@ -9,8 +9,10 @@ Maintainer: 	Ian-Woo Kim <ianwookim@gmail.com>
 Build-Type: 	Simple
 Cabal-Version:  >= 1.8
 data-files:     
-                template/*.st 
-
+                template/Setup.lhs
+                template/licenses/*.st 
+                template/application/*.hs.st
+                template/cabal/*.cabal.st
 
 Executable scaffold
   Main-is: scaffold.hs
@@ -25,12 +27,16 @@ Library
   hs-source-dirs: lib
   ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
+  Build-Depends: base>4, mtl>2, directory, filepath>1, process,
+                 HStringTemplate, HStringTemplateHelpersIW, parsec, 
+                 cmdargs, devadmin, configparser, split 
   Exposed-Modules: 
                  Application.Scaffold.Type
                  Application.Scaffold.Command
                  Application.Scaffold.Job
+                 Application.Scaffold.Config
 
   Other-Modules: 
-                 Paths_cvmaker
+                 Paths_scaffold
  
 		 
