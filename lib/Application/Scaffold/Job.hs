@@ -132,7 +132,7 @@ createApp bc nac = do
                  ++ ["lib" </> (last moduledirs) </> "Type.hs"]
                  ++ ["lib" </> (last moduledirs) </> "Job.hs"]
                  ++ ["lib" </> (last moduledirs) </> "Command.hs"]
-                 ++ [ "exe", "exe" </> executable ++ ".hs" ]
+                 ++ [ "exe" </> executable ++ ".hs" ]
   darcsInit  
   mapM_ darcsFile allfiles 
   darcsRecord ("initialize " ++ projname)
