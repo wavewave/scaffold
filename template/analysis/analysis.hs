@@ -22,20 +22,16 @@ import HROOT
 
 import System.IO
 
-histogramming :: (MonadIO m) => TH1D -> E.Iteratee (Maybe (a,PtlInfoMap,[DecayTop PtlIDInfo])) m () 
-histogramming hist = do 
-  elm <- EL.head 
-  case elm of 
-    Nothing -> return ()
-    Just maybec -> do 
-      case maybec of 
-        Nothing -> return () 
-        Just (_,_,dtops) -> do
+histogramming :: (MonadIO m) => TH1D 
+              -> E.Iteratee (Maybe (a,PtlInfoMap,[DecayTop PtlIDInfo])) m () 
+histogramming hist = EL.foldM f () 
+  where f () (Just (_,_,dtops)) = do  
           let matchmuon = matchDecayTopAndGet4Momentum (Terminal 13)
           let [Terminal muonmom]  = catMaybes (map matchmuon dtops)
               (_,eta_muon,_) = mom_2_pt_eta_phi muonmom 
           liftIO (fill1 hist (etatocosth eta_muon))
-          histogramming hist            
+          return ()
+        f () Nothing = return ()
  
 main :: IO ()
 main = do 

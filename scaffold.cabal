@@ -13,6 +13,7 @@ data-files:
                 template/licenses/*.st 
                 template/application/*.hs.st
                 template/cabal/*.cabal.st
+                template/analysis/analysis.hs
 
 Executable scaffold
   Main-is: scaffold.hs
