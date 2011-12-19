@@ -1,5 +1,5 @@
 Name:		scaffold
-Version:	0.1
+Version:	0.1.0.0
 Synopsis:	Scaffolding various projects
 Description: 	Scaffolding various projects
 License: 	BSD3
@@ -28,9 +28,18 @@ Library
   hs-source-dirs: lib
   ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
-  Build-Depends: base>4, mtl>2, directory, filepath>1, process,
-                 HStringTemplate, HStringTemplateHelpersIW, parsec, 
-                 cmdargs, devadmin, configparser, split 
+  Build-Depends: base == 4.*, 
+                 mtl == 2.*, 
+                 directory, 
+                 filepath>1, 
+                 process,
+                 HStringTemplate,  
+                 HStringTemplateHelpersIW, 
+                 parsec, 
+                 cmdargs == 0.9.*, 
+                 devadmin >= 0.3.999 && < 0.5,  
+                 configparser, 
+                 split 
   Exposed-Modules: 
                  Application.Scaffold.Type
                  Application.Scaffold.Command

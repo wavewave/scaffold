@@ -14,6 +14,7 @@ import Text.Parsec
 import Text.StringTemplate
 import Text.StringTemplate.Helpers
 
+import Control.Applicative 
 import Control.Monad
 import Data.Char
 import Data.List.Split
@@ -25,11 +26,17 @@ startJob configfile = do
   putStrLn "job started"
   putStrLn "reading .build"
   homedir <- getEnv "HOME"
-  buildconfigstr <- readFile (homedir </> ".build")
-  let conf_result = parse configBuild "" buildconfigstr
-  case conf_result of 
-    Left err -> putStrLn (show err)
-    Right bc -> do 
+  cfg <- loadConfigFile
+  mbc <- getBuildConfiguration cfg
+  mpc <- getProjectConfiguration cfg  
+  -- buildconfigstr <- readFile (homedir </> ".build")
+  -- let conf_result = parse configBuild "" buildconfigstr
+  -- case conf_result of 
+  --   Left err -> putStrLn (show err)
+  --   Right bc -> do 
+  case (,) <$> mbc <*> mpc of 
+    Nothing -> error ".build file parse error"
+    Just (bc,pc) -> do 
       putStrLn $ show bc 
       projconfstr <- readFile configfile 
       let proj_result = parse configNewApp "" projconfstr 
