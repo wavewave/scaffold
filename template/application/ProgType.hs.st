@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 
-module $modulebase$.Type where 
+module $modulebase$.ProgType where 
 
 import System.Console.CmdArgs
 

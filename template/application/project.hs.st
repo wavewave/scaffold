@@ -2,7 +2,7 @@ module Main where
 
 import System.Console.CmdArgs
 
-import $modulebase$.Type
+import $modulebase$.ProgType
 import $modulebase$.Command
 
 main :: IO () 

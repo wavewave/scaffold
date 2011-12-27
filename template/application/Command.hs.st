@@ -1,6 +1,6 @@
 module $modulebase$.Command where
 
-import $modulebase$.Type
+import $modulebase$.ProgType
 import $modulebase$.Job
 
 commandLineProcess :: $progtype$ -> IO ()

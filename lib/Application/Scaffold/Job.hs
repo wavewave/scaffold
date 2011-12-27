@@ -78,7 +78,7 @@ createApp bc nac = do
   let cabaldir = tmpldir </> "cabal"
   cabaltmpl <- directoryGroup cabaldir 
   let mbase = nac_modulebase nac
-  let exposedmodules =    "                   " ++ mbase ++ ".Type\n"
+  let exposedmodules =    "                   " ++ mbase ++ ".ProgType\n"
                        ++ "                   " ++ mbase ++ ".Job\n"
                        ++ "                   " ++ mbase ++ ".Command"
   let libdep =    "                   base>4, mtl>2, directory, filepath,\n"
@@ -125,7 +125,7 @@ createApp bc nac = do
         let str = renderTemplateGroup apptmpl replacement x
         writeFile x str 
        
-  mapM_ mkhsfile [ "Type.hs", "Job.hs", "Command.hs" ]
+  mapM_ mkhsfile [ "ProgType.hs", "Job.hs", "Command.hs" ]
 
   setCurrentDirectory basedir 
   createDirectory "exe"
