@@ -136,7 +136,7 @@ createApp bc nac = do
   setCurrentDirectory basedir 
   let allfiles = [ "LICENSE", "Setup.lhs", "lib", "exe", (projname++".cabal")] 
                  ++ map ("lib" </>) moduledirs  
-                 ++ ["lib" </> (last moduledirs) </> "Type.hs"]
+                 ++ ["lib" </> (last moduledirs) </> "ProgType.hs"]
                  ++ ["lib" </> (last moduledirs) </> "Job.hs"]
                  ++ ["lib" </> (last moduledirs) </> "Command.hs"]
                  ++ [ "exe" </> executable ++ ".hs" ]
