@@ -2,7 +2,7 @@ Name:		$projname$-server
 Version:	0.0
 Synopsis:	CRUD sample server
 Description: 	CRUD sample server
-License: 	BSD3
+License: 	$licensetype$
 License-file:	LICENSE
 Author:		Ian-Woo Kim
 Maintainer: 	Ian-Woo Kim <ianwookim@gmail.com>
@@ -18,8 +18,8 @@ Executable $projname$-server
                  bytestring == 0.9.*, 
                  containers == 0.4.*, 
                  acid-state == 0.6.*, 
-                 model-type == 0.2.*,
-                 model-server
+                 $projname$-type == 0.0.*,
+                 $projname$-server
   ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
 

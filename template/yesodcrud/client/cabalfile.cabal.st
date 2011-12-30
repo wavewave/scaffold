@@ -1,8 +1,8 @@
 Name:		$projname$-client
-Version:	0.2
+Version:	0.0
 Synopsis:	client program that communicates with model-server
 Description: 	client program that communicates with model-server
-License: 	BSD3
+License: 	$licensetype$
 License-file:	LICENSE
 Author:		Ian-Woo Kim
 Maintainer: 	Ian-Woo Kim <ianwookim@gmail.com>

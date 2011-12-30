@@ -2,8 +2,8 @@ module Main where
 
 import System.Console.CmdArgs
 
-import $projnameC$.Client.ProgType
-import $projnameC$.Client.Command
+import $modulebase$.Client.ProgType
+import $modulebase$.Client.Command
 
 main :: IO () 
 main = do 
