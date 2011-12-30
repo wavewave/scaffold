@@ -4,13 +4,15 @@ module Application.Scaffold.Type where
 
 import System.Console.CmdArgs
 
-data Scaffold = Test { 
-                config :: FilePath
-              } 
+data Scaffold = MakeApp { config :: FilePath }
+              | MakeYesodCrud { config :: FilePath }
               deriving (Show,Data,Typeable)
 
-test :: Scaffold
-test = Test { config = "test.conf" 
-            } 
+makeapp :: Scaffold
+makeapp = MakeApp { config = "test.conf"  } 
 
-mode = modes [test]
+makeyesodcrud :: Scaffold
+makeyesodcrud = MakeYesodCrud { config = "test.conf" } 
+
+mode :: Scaffold
+mode = modes [ makeapp, makeyesodcrud ]

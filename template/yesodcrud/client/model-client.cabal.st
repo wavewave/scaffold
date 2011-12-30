@@ -1,0 +1,53 @@
+Name:		model-client
+Version:	0.2
+Synopsis:	client program that communicates with model-server
+Description: 	client program that communicates with model-server
+License: 	BSD3
+License-file:	LICENSE
+Author:		Ian-Woo Kim
+Maintainer: 	Ian-Woo Kim <ianwookim@gmail.com>
+Build-Type: 	Simple
+Cabal-Version:  >= 1.8
+data-files:     
+
+
+Executable model-client
+  Main-is: model-client.hs
+  hs-source-dirs: exe
+  ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
+  ghc-prof-options: -caf-all -auto-all
+  Build-Depends: 
+                   base == 4.*, 
+                   mtl == 2.*, 
+                   cmdargs == 0.9.*, 
+                   model-client
+
+Library
+  hs-source-dirs: lib
+  ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
+  ghc-prof-options: -caf-all -auto-all
+  Build-Depends: 
+                   base == 4.*, 
+                   mtl == 2.*, 
+                   directory == 1.1.*, 
+                   filepath == 1.2.*,
+                   cmdargs == 0.9.*, 
+                   model-type == 0.2.*,
+                   configurator == 0.2.*,
+                   bytestring == 0.9.*, 
+                   http-enumerator == 0.7.*, 
+                   http-types == 0.6.*, 
+                   aeson == 0.4.*,
+                   attoparsec == 0.10.*, 
+                   time == 1.2.*, 
+                   uuid == 1.2.*
+
+  Exposed-Modules: 
+                   HEP.Automation.Model.Client.ProgType
+                   HEP.Automation.Model.Client.Job
+                   HEP.Automation.Model.Client.Config
+                   HEP.Automation.Model.Client.Command
+  Other-Modules: 
+
+ 
+		 

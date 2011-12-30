@@ -1,5 +1,5 @@
 Name:		scaffold
-Version:	0.1.0.999
+Version:	0.1.999
 Synopsis:	Scaffolding various projects
 Description: 	Scaffolding various projects
 License: 	BSD3
@@ -14,6 +14,12 @@ data-files:
                 template/application/*.hs.st
                 template/cabal/*.cabal.st
                 template/analysis/analysis.hs
+                template/yesodcrud/server/*.hs.st
+                template/yesodcrud/server/*.cabal.st
+                template/yesodcrud/client/*.hs.st
+                template/yesodcrud/client/*.cabal.st
+                template/yesodcrud/type/*.hs.st
+                template/yesodcrud/type/*.cabal.st
 
 Executable scaffold
   Main-is: scaffold.hs
@@ -37,14 +43,16 @@ Library
                  HStringTemplateHelpersIW, 
                  parsec, 
                  cmdargs == 0.9.*, 
-                 devadmin >= 0.3.999 && < 0.5,  
-                 configparser, 
+                 devadmin >= 0.4.1 && < 0.5,  
+                 -- configparser, 
+                 configurator == 0.2.*,
                  split 
   Exposed-Modules: 
                  Application.Scaffold.Type
                  Application.Scaffold.Command
                  Application.Scaffold.Job
                  Application.Scaffold.Config
+                 Application.Scaffold.Generate.YesodCrud
 
   Other-Modules: 
                  Paths_scaffold

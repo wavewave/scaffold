@@ -1,7 +1,5 @@
 module Application.Scaffold.Job where
 
-import Application.DevAdmin.Config
-import Application.Scaffold.Config
 
 import System.Directory
 import System.FilePath
@@ -19,24 +17,19 @@ import Control.Monad
 import Data.Char
 import Data.List.Split
 
+import Data.Configurator.Types
+import Data.Configurator as C
+import Application.DevAdmin.Config
+import Application.Scaffold.Config
+import Application.Scaffold.Generate.YesodCrud
+
+
 import Paths_scaffold
 
-startJob :: FilePath -> IO () 
-startJob configfile = do 
-  putStrLn "job started"
-  putStrLn "reading .build"
-  homedir <- getEnv "HOME"
-  cfg <- loadConfigFile
-  mbc <- getBuildConfiguration cfg
-  mpc <- getProjectConfiguration cfg  
-  -- buildconfigstr <- readFile (homedir </> ".build")
-  -- let conf_result = parse configBuild "" buildconfigstr
-  -- case conf_result of 
-  --   Left err -> putStrLn (show err)
-  --   Right bc -> do 
-  case (,) <$> mbc <*> mpc of 
-    Nothing -> error ".build file parse error"
-    Just (bc,pc) -> do 
+startMakeYesodCrud :: FilePath -> IO () 
+startMakeYesodCrud configfile = do 
+    putStrLn "startMakeYesodCrud"
+{-    withBuildFile $ \(bc,pc) -> do 
       putStrLn $ show bc 
       projconfstr <- readFile configfile 
       let proj_result = parse configNewApp "" projconfstr 
@@ -44,7 +37,35 @@ startJob configfile = do
         Left err -> putStrLn (show err)
         Right nac -> do 
           putStrLn $ show nac 
-          createApp bc nac 
+          createApp bc nac  -}
+
+
+
+startMakeApp :: FilePath -> IO () 
+startMakeApp configfile = 
+   withBuildFile $ \(bc,pc) -> do   
+      putStrLn $ show bc 
+      mnac <- getNewApp configfile 
+      maybe (putStrLn "parsing config file error") (createApp bc) mnac
+      -- projconfstr <- readFile configfile 
+      -- let proj_result = parse configNewApp "" projconfstr 
+{-      case proj_result of 
+        Left err -> putStrLn (show err)
+        Right nac -> do 
+          putStrLn $ show nac 
+          createApp bc nac -} 
+
+  -- putStrLn "job started"
+  -- putStrLn "reading .build"
+
+{-  homedir <- getEnv "HOME"
+  cfg <- loadConfigFile
+  mbc <- getBuildConfiguration cfg
+  mpc <- getProjectConfiguration cfg  
+  case (,) <$> mbc <*> mpc of 
+    Nothing -> error ".build file parse error"
+    Just (bc,pc) -> do -}
+
 
 createApp :: BuildConfiguration -> NewAppConfig -> IO () 
 createApp bc nac = do
