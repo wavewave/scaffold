@@ -1,184 +1,21 @@
 module Application.Scaffold.Job where
 
-
-import System.Directory
-import System.FilePath
-import System.Environment
-import System.Process
-import System.IO
-import System.Exit
-
-import Text.Parsec
-import Text.StringTemplate
-import Text.StringTemplate.Helpers
-
-import Control.Applicative 
-import Control.Monad
-import Data.Char
-import Data.List.Split
-
-import Data.Configurator.Types
-import Data.Configurator as C
 import Application.DevAdmin.Config
 import Application.Scaffold.Config
+
+import Application.Scaffold.Generate.NewApp
 import Application.Scaffold.Generate.YesodCrud
-
-
-import Paths_scaffold
 
 startMakeYesodCrud :: FilePath -> IO () 
 startMakeYesodCrud configfile = do 
     putStrLn "startMakeYesodCrud"
-{-    withBuildFile $ \(bc,pc) -> do 
-      putStrLn $ show bc 
-      projconfstr <- readFile configfile 
-      let proj_result = parse configNewApp "" projconfstr 
-      case proj_result of 
-        Left err -> putStrLn (show err)
-        Right nac -> do 
-          putStrLn $ show nac 
-          createApp bc nac  -}
-
-
+    withBuildFile $ \(bc,pc) -> 
+      getYesodCrud configfile >>= maybe (putStrLn "parsing config file error") (createYesodCrud bc)
 
 startMakeApp :: FilePath -> IO () 
 startMakeApp configfile = 
-   withBuildFile $ \(bc,pc) -> do   
-      putStrLn $ show bc 
-      mnac <- getNewApp configfile 
-      maybe (putStrLn "parsing config file error") (createApp bc) mnac
-      -- projconfstr <- readFile configfile 
-      -- let proj_result = parse configNewApp "" projconfstr 
-{-      case proj_result of 
-        Left err -> putStrLn (show err)
-        Right nac -> do 
-          putStrLn $ show nac 
-          createApp bc nac -} 
-
-  -- putStrLn "job started"
-  -- putStrLn "reading .build"
-
-{-  homedir <- getEnv "HOME"
-  cfg <- loadConfigFile
-  mbc <- getBuildConfiguration cfg
-  mpc <- getProjectConfiguration cfg  
-  case (,) <$> mbc <*> mpc of 
-    Nothing -> error ".build file parse error"
-    Just (bc,pc) -> do -}
-
-
-createApp :: BuildConfiguration -> NewAppConfig -> IO () 
-createApp bc nac = do
-  let projname = nac_projname nac
-      licensetype = nac_licensetype nac
-  putStrLn $ "creating " ++ projname
-  createDirectory projname
-  setCurrentDirectory projname 
-
-  basedir <- getCurrentDirectory
-
-  datadir <- getDataDir
-  let tmpldir = datadir </> "template"
-  let licensedir = tmpldir </> "licenses"
-  let licensefilename = case licensetype of 
-                          "BSD3" -> "LICENSE-BSD3"
-                          "GPL-3" -> "LICENSE-GPL-3"
-                          "MIT" -> "LICENSES-MIT"
-                          _ -> error "no such license type"
-  licensetmpl <- directoryGroup licensedir 
-  let licensestr = renderTemplateGroup
-                     licensetmpl 
-                     [ ("name", nac_author nac)
-                     , ("year", nac_year nac) ] 
-                     licensefilename
-                     
-  writeFile "LICENSE" licensestr
-  
-  copyFile (tmpldir </> "Setup.lhs") "Setup.lhs" 
-
-  let cabaldir = tmpldir </> "cabal"
-  cabaltmpl <- directoryGroup cabaldir 
-  let mbase = nac_modulebase nac
-  let exposedmodules =    "                   " ++ mbase ++ ".ProgType\n"
-                       ++ "                   " ++ mbase ++ ".Job\n"
-                       ++ "                   " ++ mbase ++ ".Command"
-  let libdep =    "                   base>4, mtl>2, directory, filepath,\n"
-               ++ "                   cmdargs"
-      exedep =    "                   base>4, mtl>2, directory, filepath,\n"
-               ++ "                   cmdargs, " ++ projname
-  let progtype = let (c:cs) = projname
-                     c' = toUpper c
-                     cs' = map (\x->if x=='-' then '_' else x) cs  
-                 in (c':cs')
-      executable = map toLower projname 
-  let replacement = [ ("projname",projname)
-                    , ("licensetype", licensetype ) 
-                    , ("executable", executable )
-                    , ("libdep", libdep) 
-                    , ("exedep", exedep)
-                    , ("exposedmodules", exposedmodules)
-                    , ("modulebase", mbase)
-                    , ("progtype", progtype) 
-                    ] 
-
-  let cabalstr = renderTemplateGroup 
-                   cabaltmpl
-                   replacement 
-                   "project.cabal"
-  writeFile (projname++".cabal") cabalstr 
-
-  createDirectory "lib"
-  setCurrentDirectory "lib"
- 
-  let splitted = splitOn "." mbase 
-  forM_ splitted $ \x -> do 
-    createDirectory x 
-    setCurrentDirectory x
-  let moduledirs = filter (not.null) (scanl (</>) [] splitted)
-    
-
-  putStrLn $ show moduledirs   
-
-
-  let appdir = tmpldir  </> "application"
-  apptmpl <- directoryGroup appdir 
-  let mkhsfile x = do 
-        let str = renderTemplateGroup apptmpl replacement x
-        writeFile x str 
-       
-  mapM_ mkhsfile [ "ProgType.hs", "Job.hs", "Command.hs" ]
-
-  setCurrentDirectory basedir 
-  createDirectory "exe"
-  setCurrentDirectory "exe"
-  let appstr = renderTemplateGroup apptmpl replacement "project.hs"
-  writeFile (executable++".hs") appstr
-
-  setCurrentDirectory basedir 
-  let allfiles = [ "LICENSE", "Setup.lhs", "lib", "exe", (projname++".cabal")] 
-                 ++ map ("lib" </>) moduledirs  
-                 ++ ["lib" </> (last moduledirs) </> "ProgType.hs"]
-                 ++ ["lib" </> (last moduledirs) </> "Job.hs"]
-                 ++ ["lib" </> (last moduledirs) </> "Command.hs"]
-                 ++ [ "exe" </> executable ++ ".hs" ]
-  darcsInit  
-  mapM_ darcsFile allfiles 
-  darcsRecord ("initialize " ++ projname)
-
-  return () 
-
-darcsInit :: IO ExitCode
-darcsInit = system "darcs init"
-
-darcsFile :: FilePath -> IO ExitCode 
-darcsFile fp = do 
-  putStrLn $ "add " ++ fp
-  system ("darcs add " ++ fp)
-
-darcsRecord :: String -> IO ExitCode
-darcsRecord patchname = 
-  system ("darcs record --all -m \"" ++ patchname ++ "\"")
- 
+     withBuildFile $ \(bc,pc) -> 
+       getNewApp configfile >>=  maybe (putStrLn "parsing config file error") (createNewApp bc) 
 
 
 

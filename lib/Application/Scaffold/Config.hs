@@ -27,19 +27,6 @@ data YesodCrudConfiguration = YesodCrudConfiguration {
   ycc_modulebase :: String
 }
 
- {-
-
-configNewApp :: ParsecT String () Identity NewAppConfig
-configNewApp = do 
-  oneGroupFieldInput "newapp" $ 
-    NewAppConfig <$> (oneFieldInput "projname")
-                 <*> (oneFieldInput "author")
-                 <*> (oneFieldInput "year")
-                 <*> (oneFieldInput "licensetype")
-                 <*> (oneFieldInput "modulebase")
-                 <*> (oneFieldInput "executable")
-
--}
 
 liftM6 :: (Monad m) => (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> r ) 
        -> m a1 -> m a2 -> m a3 -> m a4 -> m a5 -> m a6 
