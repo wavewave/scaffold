@@ -1,4 +1,4 @@
-Name:		model-client
+Name:		$projname$-client
 Version:	0.2
 Synopsis:	client program that communicates with model-server
 Description: 	client program that communicates with model-server
@@ -11,8 +11,8 @@ Cabal-Version:  >= 1.8
 data-files:     
 
 
-Executable model-client
-  Main-is: model-client.hs
+Executable $projname$-client
+  Main-is: $projname$-client.hs
   hs-source-dirs: exe
   ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
@@ -20,11 +20,11 @@ Executable model-client
                    base == 4.*, 
                    mtl == 2.*, 
                    cmdargs == 0.9.*, 
-                   model-client
+                   $projname$-client
 
 Library
   hs-source-dirs: lib
-  ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
+  ghc-options: 	-Wall -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
   Build-Depends: 
                    base == 4.*, 
@@ -32,7 +32,7 @@ Library
                    directory == 1.1.*, 
                    filepath == 1.2.*,
                    cmdargs == 0.9.*, 
-                   model-type == 0.2.*,
+                   $projname$-type == 0.0.*,
                    configurator == 0.2.*,
                    bytestring == 0.9.*, 
                    http-enumerator == 0.7.*, 
@@ -43,10 +43,10 @@ Library
                    uuid == 1.2.*
 
   Exposed-Modules: 
-                   HEP.Automation.Model.Client.ProgType
-                   HEP.Automation.Model.Client.Job
-                   HEP.Automation.Model.Client.Config
-                   HEP.Automation.Model.Client.Command
+                   $modulebase$.Client.ProgType
+                   $modulebase$.Client.Job
+                   $modulebase$.Client.Config
+                   $modulebase$.Client.Command
   Other-Modules: 
 
  

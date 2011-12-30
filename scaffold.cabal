@@ -44,7 +44,6 @@ Library
                  parsec, 
                  cmdargs == 0.9.*, 
                  devadmin >= 0.4.1 && < 0.5,  
-                 -- configparser, 
                  configurator == 0.2.*,
                  split 
   Exposed-Modules: 

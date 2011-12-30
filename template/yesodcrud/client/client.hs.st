@@ -2,11 +2,11 @@ module Main where
 
 import System.Console.CmdArgs
 
-import HEP.Automation.Model.Client.ProgType
-import HEP.Automation.Model.Client.Command
+import $projnameC$.Client.ProgType
+import $projnameC$.Client.Command
 
 main :: IO () 
 main = do 
-  putStrLn "model-client"
+  putStrLn "$projname$-client"
   param <- cmdArgs mode
   commandLineProcess param

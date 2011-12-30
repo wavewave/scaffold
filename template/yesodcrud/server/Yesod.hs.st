@@ -4,37 +4,37 @@
 {-# LANGUAGE EmptyDataDecls #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module HEP.Automation.Model.Server.Yesod where 
+module $modulebase$.Server.Yesod where 
 
 import Yesod hiding (update)
 import Network.Wai
 import qualified Data.Enumerator.List as EL
 import qualified Data.ByteString as S
-import HEP.Automation.Model.Type
+import $modulebase$.Type
 import Data.Acid
 import Data.Attoparsec as P
 import Data.Aeson as A
 import Data.UUID
-import HEP.Automation.Model.Server.Type
+import $modulebase$.Server.Type
 
-mkYesod "ModelServer" [parseRoutes|
+mkYesod "$projnameC$Server" [parseRoutes|
 / HomeR GET
-/listmodel  ListModelR GET
-/uploadmodel  UploadModelR POST
-/model/#UUID ModelR 
+/list$projname$  List$projnameC$R GET
+/upload$projname$  Upload$projnameC$R POST
+/$projname$/#UUID $projnameC$R 
 |]
 
-instance Yesod ModelServer where
+instance Yesod $projnameC$Server where
   approot _ = ""
   maximumContentLength _ _ = 100000000
 
-{-instance RenderMessage ModelServer FormMessage where
+{-instance RenderMessage $projnameC$Server FormMessage where
   renderMessage _ _ = defaultFormMessage -}
 
 
 getHomeR :: Handler RepHtml 
 getHomeR = do 
-  liftIO $ putStrLn "getHomeR called"
+  liftIO \$ putStrLn "getHomeR called"
   defaultLayout [whamlet|
 !!!
 <html>
@@ -49,18 +49,18 @@ defhlet :: GGWidget m Handler ()
 defhlet = [whamlet| <h1> HTML output not supported |]
 
 
-getListModelR :: Handler RepHtmlJson
-getListModelR = do 
-  liftIO $ putStrLn "getQueueListR called" 
+getList$projnameC$R :: Handler RepHtmlJson
+getList$projnameC$R = do 
+  liftIO \$ putStrLn "getQueueListR called" 
   acid <- return.server_acid =<< getYesod
-  r <- liftIO $ query acid QueryAll
-  liftIO $ putStrLn $ show r 
+  r <- liftIO \$ query acid QueryAll
+  liftIO \$ putStrLn \$ show r 
   defaultLayoutJson defhlet (A.toJSON (Just r))
 
 
-postUploadModelR :: Handler RepHtmlJson
-postUploadModelR = do 
-  liftIO $ putStrLn "postQueueR called" 
+postUpload$projnameC$R :: Handler RepHtmlJson
+postUpload$projnameC$R = do 
+  liftIO \$ putStrLn "postQueueR called" 
   acid <- return.server_acid =<< getYesod
   _ <- getRequest
   bs' <- lift EL.consume
@@ -68,76 +68,76 @@ postUploadModelR = do
   let parsed = parse json bs 
   case parsed of 
     Done _ parsedjson -> do 
-      case (A.fromJSON parsedjson :: A.Result ModelInfo) of 
+      case (A.fromJSON parsedjson :: A.Result $projnameC$Info) of 
         Success minfo -> do 
-          r <- liftIO $ update acid (AddModel minfo)
-          liftIO $ print (Just r)
-          liftIO $ print (A.toJSON (Just r))
+          r <- liftIO \$ update acid (Add$projnameC$ minfo)
+          liftIO \$ print (Just r)
+          liftIO \$ print (A.toJSON (Just r))
           defaultLayoutJson defhlet (A.toJSON (Just r))
         Error err -> do 
-          liftIO $ putStrLn err 
-          defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe ModelInfo))
+          liftIO \$ putStrLn err 
+          defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe $projnameC$Info))
     Fail _ ctxts err -> do 
-      liftIO $ putStrLn (concat ctxts++err)
-      defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe ModelInfo))
+      liftIO \$ putStrLn (concat ctxts++err)
+      defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe $projnameC$Info))
     Partial _ -> do 
-      liftIO $ putStrLn "partial" 
-      defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe ModelInfo))
+      liftIO \$ putStrLn "partial" 
+      defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe $projnameC$Info))
 
 
 
-handleModelR :: UUID -> Handler RepHtmlJson
-handleModelR name = do
+handle$projnameC$R :: UUID -> Handler RepHtmlJson
+handle$projnameC$R name = do
   wr <- return.reqWaiRequest =<< getRequest
   case requestMethod wr of 
-    "GET" -> getModelR name
-    "PUT" -> putModelR name
-    "DELETE" -> deleteModelR name
-    x -> error ("No such action " ++ show x ++ " in handlerModelR")
+    "GET" -> get$projnameC$R name
+    "PUT" -> put$projnameC$R name
+    "DELETE" -> delete$projnameC$R name
+    x -> error ("No such action " ++ show x ++ " in handler$projnameC$R")
 
-getModelR :: UUID -> Handler RepHtmlJson
-getModelR idee = do 
-  liftIO $ putStrLn "getModelR called"
+get$projnameC$R :: UUID -> Handler RepHtmlJson
+get$projnameC$R idee = do 
+  liftIO \$ putStrLn "get$projnameC$R called"
   acid <- return.server_acid =<< getYesod
-  r <- liftIO $ query acid (QueryModel idee)
-  liftIO $ putStrLn $ show r 
+  r <- liftIO \$ query acid (Query$projnameC$ idee)
+  liftIO \$ putStrLn \$ show r 
   let hlet = [whamlet| <h1> File #{idee}|]
   defaultLayoutJson hlet (A.toJSON (Just r))
 
 
-putModelR :: UUID -> Handler RepHtmlJson
-putModelR idee = do 
-  liftIO $ putStrLn "putModelR called"
+put$projnameC$R :: UUID -> Handler RepHtmlJson
+put$projnameC$R idee = do 
+  liftIO \$ putStrLn "put$projnameC$R called"
   acid <- return.server_acid =<< getYesod
   _wr <- return.reqWaiRequest =<< getRequest
   bs' <- lift EL.consume
   let bs = S.concat bs'
   let parsed = parse json bs 
-  liftIO $ print parsed 
+  liftIO \$ print parsed 
   case parsed of 
     Done _ parsedjson -> do 
-      case (A.fromJSON parsedjson :: A.Result ModelInfo) of 
+      case (A.fromJSON parsedjson :: A.Result $projnameC$Info) of 
         Success minfo -> do 
-          if idee == model_uuid minfo
-            then do r <- liftIO $ update acid (UpdateModel minfo)
+          if idee == $projname$_uuid minfo
+            then do r <- liftIO \$ update acid (Update$projnameC$ minfo)
                     defaultLayoutJson defhlet (A.toJSON (Just r))
-            else do liftIO $ putStrLn "modelname mismatched"
-                    defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe ModelInfo))
+            else do liftIO \$ putStrLn "$projname$name mismatched"
+                    defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe $projnameC$Info))
         Error err -> do 
-          liftIO $ putStrLn err 
-          defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe ModelInfo))
+          liftIO \$ putStrLn err 
+          defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe $projnameC$Info))
     Fail _ ctxts err -> do 
-      liftIO $ putStrLn (concat ctxts++err)
-      defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe ModelInfo))
+      liftIO \$ putStrLn (concat ctxts++err)
+      defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe $projnameC$Info))
          
     Partial _ -> do 
-      liftIO $ putStrLn "partial" 
-      defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe ModelInfo))
+      liftIO \$ putStrLn "partial" 
+      defaultLayoutJson defhlet (A.toJSON (Nothing :: Maybe $projnameC$Info))
 
-deleteModelR :: UUID -> Handler RepHtmlJson
-deleteModelR idee = do 
+delete$projnameC$R :: UUID -> Handler RepHtmlJson
+delete$projnameC$R idee = do 
   acid <- return.server_acid =<< getYesod
-  r <- liftIO $ update acid (DeleteModel idee)
-  liftIO $ putStrLn $ show r 
+  r <- liftIO \$ update acid (Delete$projnameC$ idee)
+  liftIO \$ putStrLn \$ show r 
   defaultLayoutJson defhlet (A.toJSON (Just r))
 

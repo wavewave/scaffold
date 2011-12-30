@@ -1,5 +1,5 @@
-Name:		model-type
-Version:	0.2
+Name:		$projname$-type
+Version:	0.0
 Synopsis:	CRUD sample type 
 Description: 	CRUD sample type 
 License: 	BSD3
@@ -12,7 +12,7 @@ data-files:
 
 Library
   hs-source-dirs: src
-  ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
+  ghc-options: 	-Wall -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
   Build-Depends: 
                    base == 4.*, 
@@ -24,4 +24,4 @@ Library
                    bytestring == 0.9.*, 
                    text == 0.11.*, 
                    aeson==0.4.*
-  exposed-modules: HEP.Automation.Model.Type
+  exposed-modules: $modulebase$.Type

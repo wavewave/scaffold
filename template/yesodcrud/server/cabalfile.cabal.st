@@ -1,5 +1,5 @@
-Name:		model-server
-Version:	0.2
+Name:		$projname$-server
+Version:	0.0
 Synopsis:	CRUD sample server
 Description: 	CRUD sample server
 License: 	BSD3
@@ -9,8 +9,8 @@ Maintainer: 	Ian-Woo Kim <ianwookim@gmail.com>
 Build-Type: 	Simple
 Cabal-Version:  >= 1.8
 
-Executable model-server
-  Main-is: model-server.hs
+Executable $projname$-server
+  Main-is: $projname$-server.hs
   hs-source-dirs: exe
   Build-Depends: base == 4.*, 
                  yesod == 0.9.*, 
@@ -25,13 +25,13 @@ Executable model-server
 
 Library
   hs-source-dirs: lib
-  ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
+  ghc-options: 	-Wall -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
   Build-Depends: base == 4.*, 
                  containers == 0.4.*, 
                  mtl == 2.*, 
                  yesod == 0.9.*, 
-                 model-type == 0.2.*, 
+                 $projname$-type == 0.0.*, 
                  safecopy == 0.6.*, 
                  acid-state == 0.6.*, 
                  aeson == 0.4.*, 
@@ -46,9 +46,9 @@ Library
                  yesod-form == 0.3.*, 
                  blaze-html == 0.4.*
   Exposed-Modules: 
-                   HEP.Automation.Model.Server.Type
-                   HEP.Automation.Model.Server.Yesod
---                   HEP.Automation.Model.Server.Form
+                   $modulebase$.Server.Type
+                   $modulebase$.Server.Yesod
+
 
 
 		 

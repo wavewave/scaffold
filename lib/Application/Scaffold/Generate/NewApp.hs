@@ -11,17 +11,12 @@ import System.Exit
 import Text.StringTemplate
 import Text.StringTemplate.Helpers
 
--- import Control.Applicative 
 import Control.Monad
 import Data.Char
 import Data.List.Split
 
--- import Data.Configurator.Types
--- import Data.Configurator as C
-
 import Application.DevAdmin.Config
 import Application.Scaffold.Config
-
 
 import Paths_scaffold
 
@@ -41,7 +36,7 @@ createNewApp bc nac = do
                           "GPL-3" -> "LICENSE-GPL-3"
                           "MIT" -> "LICENSES-MIT"
                           _ -> error "no such license type"
-  licensetmpl <- directoryGroup licensedir 
+  licensetmpl <- directoryGroup licensedir  
   let licensestr = renderTemplateGroup
                      licensetmpl 
                      [ ("name", nac_author nac)
