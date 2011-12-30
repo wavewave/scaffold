@@ -51,6 +51,7 @@ Library
                  Application.Scaffold.Command
                  Application.Scaffold.Job
                  Application.Scaffold.Config
+                 Application.Scaffold.Generate.Darcs
                  Application.Scaffold.Generate.NewApp
                  Application.Scaffold.Generate.YesodCrud
 

@@ -17,6 +17,7 @@ import Data.List.Split
 
 import Application.DevAdmin.Config
 import Application.Scaffold.Config
+import Application.Scaffold.Generate.Darcs 
 
 import Paths_scaffold
 
@@ -105,16 +106,4 @@ createNewApp bc nac = do
   darcsRecord ("initialize " ++ projname)
   return () 
 
-darcsInit :: IO ExitCode
-darcsInit = system "darcs init"
-
-darcsFile :: FilePath -> IO ExitCode 
-darcsFile fp = do 
-  putStrLn $ "add " ++ fp
-  system ("darcs add " ++ fp)
-
-darcsRecord :: String -> IO ExitCode
-darcsRecord patchname = 
-  system ("darcs record --all -m \"" ++ patchname ++ "\"")
- 
 

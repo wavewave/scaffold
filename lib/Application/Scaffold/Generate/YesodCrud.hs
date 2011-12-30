@@ -13,6 +13,7 @@ import Text.StringTemplate.Helpers
 
 import Application.DevAdmin.Config
 import Application.Scaffold.Config
+import Application.Scaffold.Generate.Darcs
 
 import Paths_scaffold
 
@@ -130,7 +131,23 @@ makeDirectoriesAndFiles ycc stype fp = do
               [ ("Type.hs", strType)
               , ("Yesod.hs", strYesod) ]
         writeFile ("exe" </> projname ++ "-server.hs") strServer
-
+    let allfiles = [ "LICENSE", "Setup.lhs" ] ++ 
+                   case stype of 
+                     YSType -> [ projname++"-type.cabal", "lib" </> moduledir </> "Type.hs" ] 
+                     YSClient -> [ projname++"-client.cabal"
+                                 , "lib" </> moduledir </> "Client" </> "Command.hs"
+                                 , "lib" </> moduledir </> "Client" </> "Config.hs"
+                                 , "lib" </> moduledir </> "Client" </> "Job.hs"
+                                 , "lib" </> moduledir </> "Client" </> "ProgType.hs"
+                                 , "exe" </> projname++"-client.hs" ] 
+                     YSServer -> [ projname++"-server.cabal"
+                                 , "lib" </> moduledir </> "Server" </> "Type.hs"
+                                 , "lib" </> moduledir </> "Server" </> "Yesod.hs" 
+                                 , "exe" </> projname++"-server.hs" ]
+    darcsInit
+    mapM_ darcsFile allfiles 
+    darcsRecord ("initialize " ++ projname) 
+    return ()
 
 capital1st :: String -> String 
 capital1st [] = [] 
