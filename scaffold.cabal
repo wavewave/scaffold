@@ -1,5 +1,5 @@
 Name:		scaffold
-Version:	0.2
+Version:	0.2.0.0.999
 Synopsis:	Scaffolding various projects
 Description: 	Scaffolding various projects
 License: 	BSD3
@@ -40,7 +40,7 @@ Library
                  filepath>1, 
                  process,
                  HStringTemplate,  
-                 HStringTemplateHelpersIW, 
+                 -- HStringTemplateHelpersIW, 
                  parsec, 
                  cmdargs == 0.9.*, 
                  devadmin >= 0.4.1 && < 0.5,  
