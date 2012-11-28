@@ -2,7 +2,8 @@
              TemplateHaskell, 
              TypeFamilies, 
              TypeSynonymInstances, 
-             OverloadedStrings  #-}
+             OverloadedStrings, 
+             FlexibleInstances  #-}
 
 module $modulebase$.Type where
 

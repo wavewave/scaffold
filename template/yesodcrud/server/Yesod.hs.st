@@ -6,16 +6,20 @@
 
 module $modulebase$.Server.Yesod where 
 
-import Yesod hiding (update)
-import Network.Wai
-import qualified Data.Enumerator.List as EL
+import           Control.Applicative
+import           Data.Acid
+import           Data.Aeson as A
+import           Data.Attoparsec as P
+import           Data.Conduit 
+import qualified Data.Conduit.List as CL
 import qualified Data.ByteString as S
-import $modulebase$.Type
-import Data.Acid
-import Data.Attoparsec as P
-import Data.Aeson as A
-import Data.UUID
-import $modulebase$.Server.Type
+import           Data.UUID
+import           Network.Wai
+import           Yesod hiding (update)
+--
+import           $modulebase$.Type
+import           $modulebase$.Server.Type
+
 
 mkYesod "$projnameC$Server" [parseRoutes|
 / HomeR GET
@@ -25,7 +29,7 @@ mkYesod "$projnameC$Server" [parseRoutes|
 |]
 
 instance Yesod $projnameC$Server where
-  approot _ = ""
+  -- approot _ = ""
   maximumContentLength _ _ = 100000000
 
 {-instance RenderMessage $projnameC$Server FormMessage where
@@ -45,7 +49,7 @@ getHomeR = do
 |]
 
 
-defhlet :: GGWidget m Handler ()
+defhlet :: GWidget s m ()
 defhlet = [whamlet| <h1> HTML output not supported |]
 
 
@@ -62,8 +66,8 @@ postUpload$projnameC$R :: Handler RepHtmlJson
 postUpload$projnameC$R = do 
   liftIO \$ putStrLn "postQueueR called" 
   acid <- return.server_acid =<< getYesod
-  _ <- getRequest
-  bs' <- lift EL.consume
+  wr <- reqWaiRequest <\$> getRequest  
+  bs' <- liftIO \$ runResourceT (requestBody wr \$\$ CL.consume)
   let bs = S.concat bs' 
   let parsed = parse json bs 
   case parsed of 
@@ -109,8 +113,8 @@ put$projnameC$R :: UUID -> Handler RepHtmlJson
 put$projnameC$R idee = do 
   liftIO \$ putStrLn "put$projnameC$R called"
   acid <- return.server_acid =<< getYesod
-  _wr <- return.reqWaiRequest =<< getRequest
-  bs' <- lift EL.consume
+  wr <- reqWaiRequest <\$> getRequest  
+  bs' <- liftIO \$ runResourceT (requestBody wr \$\$ CL.consume)
   let bs = S.concat bs'
   let parsed = parse json bs 
   liftIO \$ print parsed 

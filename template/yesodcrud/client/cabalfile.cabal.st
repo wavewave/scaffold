@@ -35,7 +35,7 @@ Library
                    $projname$-type,
                    configurator,
                    bytestring, 
-                   http-enumerator, 
+                   http-conduit, 
                    http-types, 
                    aeson,
                    attoparsec, 

@@ -13,12 +13,12 @@ import $modulebase$.Type
 -- import Debug.Trace 
 import Data.Acid
 
-instance SinglePiece UUID where
-  fromSinglePiece = fromString . C.unpack . E.encodeUtf8
-  toSinglePiece = E.decodeUtf8 . C.pack . toString 
+instance PathPiece UUID where
+  fromPathPiece = fromString . C.unpack . E.encodeUtf8
+  toPathPiece = E.decodeUtf8 . C.pack . toString 
 
-instance ToHtml UUID where
-  toHtml = toHtml . toString 
+instance ToMarkup UUID where
+  toMarkup = toMarkup . toString 
 
 data $projnameC$Server = $projnameC$Server {
   server_acid :: AcidState $projnameC$InfoRepository
