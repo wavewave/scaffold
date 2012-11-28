@@ -12,13 +12,13 @@ Cabal-Version:  >= 1.8
 Executable $projname$-server
   Main-is: $projname$-server.hs
   hs-source-dirs: exe
-  Build-Depends: base == 4.*, 
-                 yesod == 0.9.*, 
-                 uuid == 1.2.*,
-                 bytestring == 0.9.*, 
-                 containers == 0.4.*, 
-                 acid-state == 0.6.*, 
-                 $projname$-type == 0.0.*,
+  Build-Depends: base, 
+                 yesod, 
+                 uuid,
+                 bytestring, 
+                 containers, 
+                 acid-state, 
+                 $projname$-type,
                  $projname$-server
   ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
@@ -27,24 +27,24 @@ Library
   hs-source-dirs: lib
   ghc-options: 	-Wall -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
-  Build-Depends: base == 4.*, 
-                 containers == 0.4.*, 
-                 mtl == 2.*, 
-                 yesod == 0.9.*, 
-                 $projname$-type == 0.0.*, 
-                 safecopy == 0.6.*, 
-                 acid-state == 0.6.*, 
-                 aeson == 0.4.*, 
-                 bytestring == 0.9.*, 
-                 enumerator == 0.4.*, 
-                 uuid == 1.2.*,
-                 wai-extra == 0.4.*, 
-                 wai == 0.4.*,
-                 attoparsec == 0.10.*, 
-                 text == 0.11.*, 
-                 yesod-core == 0.9.*, 
-                 yesod-form == 0.3.*, 
-                 blaze-html == 0.4.*
+  Build-Depends: base, 
+                 containers, 
+                 mtl, 
+                 yesod, 
+                 $projname$-type, 
+                 safecopy, 
+                 acid-state, 
+                 aeson, 
+                 bytestring, 
+                 enumerator, 
+                 uuid,
+                 wai-extra, 
+                 wai,
+                 attoparsec, 
+                 text, 
+                 yesod-core, 
+                 yesod-form, 
+                 blaze-html
   Exposed-Modules: 
                    $modulebase$.Server.Type
                    $modulebase$.Server.Yesod

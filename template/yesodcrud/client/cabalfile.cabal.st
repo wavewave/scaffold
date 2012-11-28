@@ -17,9 +17,9 @@ Executable $projname$-client
   ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
   Build-Depends: 
-                   base == 4.*, 
-                   mtl == 2.*, 
-                   cmdargs == 0.9.*, 
+                   base, 
+                   mtl, 
+                   cmdargs, 
                    $projname$-client
 
 Library
@@ -27,20 +27,20 @@ Library
   ghc-options: 	-Wall -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
   Build-Depends: 
-                   base == 4.*, 
-                   mtl == 2.*, 
-                   directory == 1.1.*, 
-                   filepath == 1.2.*,
-                   cmdargs == 0.9.*, 
-                   $projname$-type == 0.0.*,
-                   configurator == 0.2.*,
-                   bytestring == 0.9.*, 
-                   http-enumerator == 0.7.*, 
-                   http-types == 0.6.*, 
-                   aeson == 0.4.*,
-                   attoparsec == 0.10.*, 
-                   time == 1.2.*, 
-                   uuid == 1.2.*
+                   base, 
+                   mtl, 
+                   directory, 
+                   filepath,
+                   cmdargs, 
+                   $projname$-type,
+                   configurator,
+                   bytestring, 
+                   http-enumerator, 
+                   http-types, 
+                   aeson,
+                   attoparsec, 
+                   time, 
+                   uuid
 
   Exposed-Modules: 
                    $modulebase$.Client.ProgType

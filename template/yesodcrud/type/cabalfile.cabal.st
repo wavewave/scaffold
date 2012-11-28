@@ -15,13 +15,13 @@ Library
   ghc-options: 	-Wall -funbox-strict-fields -fno-warn-unused-do-bind
   ghc-prof-options: -caf-all -auto-all
   Build-Depends: 
-                   base == 4.*, 
-                   mtl == 2.*, 
-                   uuid == 1.2.*,
-                   containers == 0.4.*, 
-                   safecopy == 0.6.*, 
-                   acid-state == 0.6.*, 
-                   bytestring == 0.9.*, 
-                   text == 0.11.*, 
-                   aeson==0.4.*
+                   base, 
+                   mtl, 
+                   uuid,
+                   containers, 
+                   safecopy, 
+                   acid-state, 
+                   bytestring, 
+                   text, 
+                   aeson
   exposed-modules: $modulebase$.Type
